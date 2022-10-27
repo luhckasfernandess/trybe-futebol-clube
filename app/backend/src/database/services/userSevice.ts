@@ -1,13 +1,13 @@
 import bcrypt = require('bcryptjs');
 import Users from '../models/usersModel';
-import { ILogin, IUser } from '../interfaces';
+import { ILogin } from '../interfaces';
 import auth from '../helpers/auth';
 
-export default class LoginUser {
+export default class UserService {
   login = async ({ email, password }: ILogin) => {
-    const user = await Users.findOne({ where: { email }, raw: true }) as IUser;
+    const user = await Users.findOne({ where: { email }, raw: true });
     if (!!user && await bcrypt.compare(password, user.password)) {
-      const token = await auth.createToken(user);
+      const token = auth.createToken(user);
       return token;
     }
     return null;
