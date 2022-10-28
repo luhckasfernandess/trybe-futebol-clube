@@ -9,8 +9,8 @@ export default class Login {
   };
 
   public validate = (req: Request, res: Response, next: NextFunction) => {
-    const { email } = req.body;
-    const { error } = this.loginSchema(email);
+    const user = req.body;
+    const { error } = this.loginSchema(user);
     if (error) {
       const [code, message] = error.message.split('|');
       return res.status(Number(code)).json({ message });
