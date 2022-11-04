@@ -11,7 +11,7 @@ export default class Login {
   public validate = (req: Request, res: Response, next: NextFunction) => {
     const user = req.body;
     const { password } = user;
-    if (!password) res.status(400).json({ messages: 'All fields must be filled' });
+    if (!password) return res.status(400).json({ messages: 'All fields must be filled' });
     const { error } = this.loginSchema(user);
     if (error) {
       const [code, message] = error.message.split('|');

@@ -1,4 +1,6 @@
 import * as express from 'express';
+import bodyParser = require('body-parser');
+import cors = require('cors');
 import userRoute from './database/routes/usersRoute';
 
 class App {
@@ -23,7 +25,8 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
-
+    this.app.use(bodyParser.json());
+    this.app.use(cors());
     this.app.use('/login', userRoute);
   }
 

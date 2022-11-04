@@ -8,9 +8,16 @@ export default class UserController {
   }
 
   login = async (req: Request, res: Response) => {
-    const user = req.body;
-    const token = await this.userService.login(user);
-    if (token === null) throw new Error('Incorrect email or password');
-    return res.status(200).json({ token });
+    try {
+      const user = req.body;
+      const token = await this.userService.login(user);
+      console.log(token);
+      if (token === null) throw new Error('Incorrect email or password');
+      return res.status(200).json({ token });
+    } catch (error) {
+      console.log('Controlller', error);
+      return res.status(401).json({ message: 'Incorrect email or password' });
+      console.log(error);
+    }
   };
 }
