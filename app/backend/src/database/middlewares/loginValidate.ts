@@ -6,10 +6,10 @@ export default class Login {
     const { email, password } = req.body;
     const validateEmail = /\S+@\S+\.\S+/;
     if (!email || !password) {
-      return res.status(400).json({ messages: messageError.anyRequired });
+      return res.status(400).json({ message: messageError.anyRequired });
     }
     if (!validateEmail.test(email)) {
-      return res.status(401).json({ messages: messageError.stringEmail });
+      return res.status(401).json({ message: messageError.stringEmail });
     }
     next();
   };
