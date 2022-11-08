@@ -1,6 +1,6 @@
 import bcrypt = require('bcryptjs');
 import Users from '../models/usersModel';
-import { ILogin } from '../interfaces';
+import { ILogin, IUser } from '../interfaces';
 import auth from '../helpers/auth';
 
 export default class UserService {
@@ -12,5 +12,10 @@ export default class UserService {
       return token;
     }
     return null;
+  };
+
+  validateLogin = (token: string) => {
+    const user = auth.verifyToken(token) as IUser;
+    return { role: user.role };
   };
 }
