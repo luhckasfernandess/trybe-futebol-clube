@@ -3,6 +3,7 @@ import bodyParser = require('body-parser');
 import cors = require('cors');
 import userRoute from './database/routes/usersRoute';
 import teamsRoute from './database/routes/teamsRoute';
+import matchesRoute from './database/routes/matchesRoute';
 
 class App {
   public app: express.Express;
@@ -30,6 +31,7 @@ class App {
     this.app.use(cors());
     this.app.use('/login', userRoute);
     this.app.use('/teams', teamsRoute);
+    this.app.use('/matches', matchesRoute);
   }
 
   public start(PORT: string | number):void {
