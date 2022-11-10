@@ -26,4 +26,15 @@ export default class MatchesController {
       return error;
     }
   };
+
+  saveMatchesInProgress = async (req: Request, res: Response) => {
+    try {
+      const match = req.body;
+      console.log('O que vem no body', match);
+      const result = await this.matchService.saveMatchesInProgress(match);
+      return res.status(201).json(result);
+    } catch (error) {
+      return error;
+    }
+  };
 }
