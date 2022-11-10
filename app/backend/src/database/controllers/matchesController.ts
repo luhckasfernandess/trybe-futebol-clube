@@ -30,7 +30,10 @@ export default class MatchesController {
   saveMatchesInProgress = async (req: Request, res: Response) => {
     try {
       const match = req.body;
-      console.log('O que vem no body', match);
+      if (match.homeTeam === match.awayTeam) {
+        return res.status(422).json({
+          message: 'It is not possible to create a match with two equal teams' });
+      }
       const result = await this.matchService.saveMatchesInProgress(match);
       return res.status(201).json(result);
     } catch (error) {
