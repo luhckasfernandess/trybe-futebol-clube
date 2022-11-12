@@ -25,12 +25,15 @@ export default class MatchService {
     const tempMatch = match;
     tempMatch.inProgress = true;
     const { id, homeTeam, homeTeamGoals, awayTeam, awayTeamGoals, inProgress } = tempMatch;
+    const verifyTeam1 = await Teams.findByPk(homeTeam);
+    const verifyTeam2 = await Teams.findByPk(awayTeam);
+    if (!verifyTeam1 || !verifyTeam2) return null;
     const saveMatch = { id, homeTeam, homeTeamGoals, awayTeam, awayTeamGoals, inProgress };
     const result = await Matches.create(saveMatch);
     return result;
   };
 
-  saveMatchFinished = async (id: number) => {
+  saveMatchFinish = async (id: number) => {
     const [result] = await Matches.update({ inProgress: false }, { where: { id } });
     return result;
   };
