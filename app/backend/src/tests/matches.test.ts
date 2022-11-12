@@ -5,6 +5,7 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import Matches from '../database/models/matchesModel';
+import IMatches from '../database/interfaces/IMatches';
 
 import { Response } from 'superagent';
 
@@ -12,346 +13,43 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
+const matchesMock: IMatches[]= [
+  {
+    id: 1,
+    homeTeam: 7,
+    homeTeamGoals: 3,
+    awayTeam: 16,
+    awayTeamGoals: 0,
+    inProgress: false,
+  },
+  {
+    id: 2,
+    homeTeam: 3,
+    homeTeamGoals: 0,
+    awayTeam: 2,
+    awayTeamGoals: 3,
+    inProgress: false,
+  },
+  {
+    id: 3,
+    homeTeam: 7,
+    homeTeamGoals: 5,
+    awayTeam: 3,
+    awayTeamGoals: 1,
+    inProgress: true,
+  },
+  {
+    id: 4,
+    homeTeam: 16,
+    homeTeamGoals: 2,
+    awayTeam: 14,
+    awayTeamGoals: 2,
+    inProgress: true,
+  },
+];
+
 describe('Ao acessar o endpoint /matches', () => {
   let chaiHttpResponse: Response;
-  const matchesMock: unknown = [
-    {
-      home_team: 16,
-      home_team_goals: 1,
-      away_team: 8,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 9,
-      home_team_goals: 1,
-      away_team: 14,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 4,
-      home_team_goals: 3,
-      away_team: 11,
-      away_team_goals: 0,
-      in_progress: false,
-    },
-    {
-      home_team: 3,
-      home_team_goals: 0,
-      away_team: 2,
-      away_team_goals: 0,
-      in_progress: false,
-    },
-    {
-      home_team: 7,
-      home_team_goals: 1,
-      away_team: 10,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 5,
-      home_team_goals: 1,
-      away_team: 13,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 12,
-      home_team_goals: 2,
-      away_team: 6,
-      away_team_goals: 2,
-      in_progress: false,
-    },
-    {
-      home_team: 15,
-      home_team_goals: 0,
-      away_team: 1,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 1,
-      home_team_goals: 0,
-      away_team: 12,
-      away_team_goals: 3,
-      in_progress: false,
-    },
-    {
-      home_team: 2,
-      home_team_goals: 0,
-      away_team: 9,
-      away_team_goals: 2,
-      in_progress: false,
-    },
-    {
-      home_team: 13,
-      home_team_goals: 1,
-      away_team: 3,
-      away_team_goals: 0,
-      in_progress: false,
-    },
-    {
-      home_team: 6,
-      home_team_goals: 0,
-      away_team: 4,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 8,
-      home_team_goals: 2,
-      away_team: 5,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 14,
-      home_team_goals: 2,
-      away_team: 16,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 10,
-      home_team_goals: 0,
-      away_team: 15,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 11,
-      home_team_goals: 0,
-      away_team: 7,
-      away_team_goals: 0,
-      in_progress: false,
-    },
-    {
-      home_team: 1,
-      home_team_goals: 2,
-      away_team: 8,
-      away_team_goals: 3,
-      in_progress: false,
-    },
-    {
-      home_team: 12,
-      home_team_goals: 4,
-      away_team: 5,
-      away_team_goals: 2,
-      in_progress: false,
-    },
-    {
-      home_team: 11,
-      home_team_goals: 2,
-      away_team: 2,
-      away_team_goals: 2,
-      in_progress: false,
-    },
-    {
-      home_team: 7,
-      home_team_goals: 0,
-      away_team: 9,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 6,
-      home_team_goals: 3,
-      away_team: 13,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 4,
-      home_team_goals: 3,
-      away_team: 3,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 15,
-      home_team_goals: 2,
-      away_team: 16,
-      away_team_goals: 3,
-      in_progress: false,
-    },
-    {
-      home_team: 10,
-      home_team_goals: 2,
-      away_team: 14,
-      away_team_goals: 2,
-      in_progress: false,
-    },
-    {
-      home_team: 2,
-      home_team_goals: 0,
-      away_team: 6,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 13,
-      home_team_goals: 1,
-      away_team: 1,
-      away_team_goals: 0,
-      in_progress: false,
-    },
-    {
-      home_team: 5,
-      home_team_goals: 1,
-      away_team: 15,
-      away_team_goals: 2,
-      in_progress: false,
-    },
-    {
-      home_team: 16,
-      home_team_goals: 3,
-      away_team: 7,
-      away_team_goals: 0,
-      in_progress: false,
-    },
-    {
-      home_team: 9,
-      home_team_goals: 0,
-      away_team: 4,
-      away_team_goals: 4,
-      in_progress: false,
-    },
-    {
-      home_team: 3,
-      home_team_goals: 0,
-      away_team: 12,
-      away_team_goals: 4,
-      in_progress: false,
-    },
-    {
-      home_team: 8,
-      home_team_goals: 2,
-      away_team: 10,
-      away_team_goals: 0,
-      in_progress: false,
-    },
-    {
-      home_team: 14,
-      home_team_goals: 5,
-      away_team: 11,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 1,
-      home_team_goals: 1,
-      away_team: 16,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 9,
-      home_team_goals: 3,
-      away_team: 6,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 10,
-      home_team_goals: 1,
-      away_team: 5,
-      away_team_goals: 3,
-      in_progress: false,
-    },
-    {
-      home_team: 2,
-      home_team_goals: 0,
-      away_team: 7,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 15,
-      home_team_goals: 0,
-      away_team: 13,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 14,
-      home_team_goals: 2,
-      away_team: 4,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 3,
-      home_team_goals: 2,
-      away_team: 11,
-      away_team_goals: 0,
-      in_progress: false,
-    },
-    {
-      home_team: 12,
-      home_team_goals: 4,
-      away_team: 8,
-      away_team_goals: 1,
-      in_progress: false,
-    },
-    {
-      home_team: 16,
-      home_team_goals: 2,
-      away_team: 9,
-      away_team_goals: 0,
-      in_progress: true,
-    },
-    {
-      home_team: 6,
-      home_team_goals: 1,
-      away_team: 1,
-      away_team_goals: 0,
-      in_progress: true,
-    },
-    {
-      home_team: 11,
-      home_team_goals: 0,
-      away_team: 10,
-      away_team_goals: 0,
-      in_progress: true,
-    },
-    {
-      home_team: 7,
-      home_team_goals: 2,
-      away_team: 15,
-      away_team_goals: 2,
-      in_progress: true,
-    },
-    {
-      home_team: 5,
-      home_team_goals: 1,
-      away_team: 3,
-      away_team_goals: 1,
-      in_progress: true,
-    },
-    {
-      home_team: 4,
-      home_team_goals: 1,
-      away_team: 12,
-      away_team_goals: 1,
-      in_progress: true,
-    },
-    {
-      home_team: 8,
-      home_team_goals: 1,
-      away_team: 14,
-      away_team_goals: 2,
-      in_progress: true,
-    },
-    {
-      home_team: 13,
-      home_team_goals: 1,
-      away_team: 2,
-      away_team_goals: 1,
-      in_progress: true,
-    }
-  ];
 
   before(async () => {
     sinon
@@ -367,5 +65,26 @@ describe('Ao acessar o endpoint /matches', () => {
     chaiHttpResponse = await chai.request(app).get('/matches');
     expect(chaiHttpResponse).to.have.status(200);
     expect(chaiHttpResponse.body).to.be.deep.equal(matchesMock);
+  });
+});
+
+describe('Ao acessar o endpoint /matches?inProgress=true', () => {
+  let chaiHttpResponse: Response;
+  const matchesInProgressMock = matchesMock.filter((matches) => matches.inProgress === true);
+
+  before(async () => {
+    sinon
+      .stub(Matches, "findAll")
+      .resolves(matchesInProgressMock as Matches[]);
+  });
+
+  after(()=>{
+    (Matches.findAll as sinon.SinonStub).restore();
+  })
+
+  it('Retorna status code 200 com as partidas em progresso', async () => {
+    chaiHttpResponse = await chai.request(app).get('/matches?inProgress=true');
+    expect(chaiHttpResponse).to.have.status(200);
+    expect(chaiHttpResponse.body).to.be.deep.equal(matchesInProgressMock);
   });
 });
