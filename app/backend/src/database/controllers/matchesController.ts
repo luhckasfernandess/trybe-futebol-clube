@@ -44,11 +44,22 @@ export default class MatchesController {
     }
   };
 
-  saveMatchFinished = async (req: Request, res: Response) => {
+  saveMatchFinish = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       const result = await this.matchService.saveMatchFinish(Number(id));
       if (result) return res.status(200).json({ message: 'Finished' });
+    } catch (error) {
+      return error;
+    }
+  };
+
+  saveMatchesById = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const teams = req.body;
+      const result = await this.matchService.saveMatchesById(Number(id), teams);
+      return res.status(200).json(result);
     } catch (error) {
       return error;
     }
