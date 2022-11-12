@@ -8,6 +8,7 @@ const token = new Token();
 
 matchesRoute.get('/', matchesController.getMatches, matchesController.getMatchesInProgress);
 matchesRoute.post('/', token.tokenValidate, matchesController.saveMatchesInProgress);
-matchesRoute.patch('/:id/finish', token.tokenValidate, matchesController.saveMatchFinished);
+matchesRoute.patch('/:id/finish', token.tokenValidate, matchesController.saveMatchFinish);
+matchesRoute.patch('/:id', matchesController.saveMatchesById);
 
 export default matchesRoute;
