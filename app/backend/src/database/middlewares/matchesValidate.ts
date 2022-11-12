@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import auth from '../helpers/auth';
 
-export default class Token {
+export default class MatchesValidate {
   public tokenValidate = (req: Request, res: Response, next: NextFunction) => {
     try {
       const { authorization } = req.headers;
