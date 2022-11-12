@@ -35,6 +35,9 @@ export default class MatchesController {
           message: 'It is not possible to create a match with two equal teams' });
       }
       const result = await this.matchService.saveMatchesInProgress(match);
+      if (result === null) {
+        return res.status(404).json({ message: 'There is no team with such id!' });
+      }
       return res.status(201).json(result);
     } catch (error) {
       return error;
@@ -44,7 +47,7 @@ export default class MatchesController {
   saveMatchFinished = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const result = await this.matchService.saveMatchFinished(Number(id));
+      const result = await this.matchService.saveMatchFinish(Number(id));
       if (result) return res.status(200).json({ message: 'Finished' });
     } catch (error) {
       return error;
