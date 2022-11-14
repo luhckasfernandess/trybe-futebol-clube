@@ -71,6 +71,25 @@ const BusinessRuleCalc = {
       }
       return acc;
     }, { ...initialInfos }) as unknown as ITeamStatistics,
+
+  awayTeamStatistics: (id: number, teamName: string, matches: IMatchesWithTeamName[]) =>
+    matches.reduce((acc, curr) => {
+      if (!curr.inProgress && curr.awayTeam === id) {
+        const points = BusinessRuleCalc.totalPoints(curr.awayTeamGoals, curr.homeTeamGoals);
+        acc.name = teamName;
+        acc.totalPoints += points;
+        acc.totalGames += 1;
+        acc.totalVictories += points === 3 ? 1 : 0;
+        acc.totalDraws += points === 1 ? 1 : 0;
+        acc.totalLosses += points === 0 ? 1 : 0;
+        acc.goalsFavor += curr.awayTeamGoals;
+        acc.goalsOwn += curr.homeTeamGoals;
+        acc.goalsBalance = acc.goalsFavor - acc.goalsOwn;
+        acc.efficiency = BusinessRuleCalc.efficiency(acc.totalPoints, acc.totalGames);
+        return acc;
+      }
+      return acc;
+    }, { ...initialInfos }) as unknown as ITeamStatistics,
 };
 
 export default BusinessRuleCalc;
