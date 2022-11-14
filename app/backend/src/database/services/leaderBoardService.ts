@@ -21,4 +21,15 @@ export default class LeaderBoardService {
     result.sort(BusinessRuleCalc.sortByTotalPoints);
     return result;
   };
+
+  leaderBoardAway = async () => {
+    const matches = await this.matchService.getMatches() as unknown;
+    const teams = await this.teamService.getAllTeams();
+    const result = await Promise.all(
+      teams.map(({ id, teamName }) =>
+        BusinessRuleCalc.awayTeamStatistics(id, teamName, matches as IMatchesWithTeamName[])),
+    );
+    result.sort(BusinessRuleCalc.sortByTotalPoints);
+    return result;
+  };
 }
