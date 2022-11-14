@@ -4,6 +4,7 @@ import cors = require('cors');
 import userRoute from './database/routes/usersRoute';
 import teamsRoute from './database/routes/teamsRoute';
 import matchesRoute from './database/routes/matchesRoute';
+import leaderBoardsRoute from './database/routes/leaderBoardsRoute';
 
 class App {
   public app: express.Express;
@@ -32,6 +33,7 @@ class App {
     this.app.use('/login', userRoute);
     this.app.use('/teams', teamsRoute);
     this.app.use('/matches', matchesRoute);
+    this.app.use('/leaderboard', leaderBoardsRoute);
   }
 
   public start(PORT: string | number):void {
