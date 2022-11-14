@@ -90,6 +90,25 @@ const BusinessRuleCalc = {
       }
       return acc;
     }, { ...initialInfos }) as unknown as ITeamStatistics,
+
+  allTeamStatistics: (id: number, teamName: string, matches: IMatchesWithTeamName[]) => {
+    const homeTeam = BusinessRuleCalc.homeTeamStatistics(id, teamName, matches);
+    const awayTeam = BusinessRuleCalc.awayTeamStatistics(id, teamName, matches);
+    const allTeams = {
+      name: teamName,
+      totalPoints: homeTeam.totalPoints + awayTeam.totalPoints,
+      totalGames: homeTeam.totalGames + awayTeam.totalGames,
+      totalVictories: homeTeam.totalVictories + awayTeam.totalVictories,
+      totalDraws: homeTeam.totalDraws + awayTeam.totalDraws,
+      totalLosses: homeTeam.totalLosses + awayTeam.totalLosses,
+      goalsFavor: homeTeam.goalsFavor + awayTeam.goalsFavor,
+      goalsOwn: homeTeam.goalsOwn + awayTeam.goalsOwn,
+      goalsBalance: homeTeam.goalsBalance + awayTeam.goalsBalance,
+      efficiency: 0,
+    };
+    allTeams.efficiency = BusinessRuleCalc.efficiency(allTeams.totalPoints, allTeams.totalGames);
+    return allTeams as unknown as ITeamStatistics;
+  },
 };
 
 export default BusinessRuleCalc;
